@@ -100,13 +100,38 @@
                 url: 'https://autumnfish.cn/big32/admin/userinfo_get',
                 type: 'get',
                 success(backdata) {
-                    console.log(backdata);
+                    // console.log(backdata);
                     for (const key in backdata.data) {
                         $('input.' + key).val(backdata.data[key])
                     }
                     //头像
                     $('.user_pic').attr('src', backdata.data.user_pic)
                 }
+            })
+            //chang事件
+            $('#exampleInputFile').change(function () {
+                //files是dom元素的属性
+                var file = this.files[0]
+                var url = URL.createObjectURL(file)
+                $(this).prev().attr('src', url)
+            })
+            $('.btn-success').click(function (e) {
+                e.preventDefault()
+                //传入的参数必须是DOM对象
+                var formData = new FormData($('form')[0])
+
+                $.ajax({
+                    url: 'https://autumnfish.cn/big32/admin/userinfo_edit',
+                    type: 'post',
+                    data: formData,
+                    contentType: false,
+                    //不把数据变为字符串
+                    processData: false,
+                    success(backdata) {
+                        console.log(backdata);
+
+                    }
+                })
             })
         })
 
